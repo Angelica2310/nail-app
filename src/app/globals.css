@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f7f3ef; /* page background, section blocks, cards */
+  --primary: #9e3a37; /* buttons, highlights, headings in Great Vibes font */
+  --textMain: #2f2f2f; /* body text (with Nunito), paragraphs, menu descriptions */
+  --accent: rgb(
+    215,
+    183,
+    178
+  ); /* borders, hover states, backgrounds of cards, subtle UI elements */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--textMain);
+  background: var(--background);
+  font-family: var(--font-nunito);
+  background-image: url("/page-bg.jpg");
+  background-size: cover;
+  position: relative;
+  z-index: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/page-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px);
+  transform: scale(1.05); /* prevents blur edges */
+  z-index: -1;
+  opacity: 0.45;
+}
