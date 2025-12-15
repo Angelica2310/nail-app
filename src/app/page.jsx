@@ -6,10 +6,10 @@ import Review from "../components/Review";
 export default function Home() {
   return (
     <div>
-      {/* <Hero />
+      <Hero />
       <Introduction />
-      <Review /> */}
-      <div style={{ padding: 40 }}>Deployed OK ✅</div>
+      <Review />
+      {/* <div style={{ padding: 40 }}>Deployed OK ✅</div> */}
     </div>
   );
 }
