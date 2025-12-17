@@ -49,6 +49,9 @@ export default function NavBar() {
             <ActiveLink href="/service" variant="homeNav">
               SERVICES
             </ActiveLink>
+            <ActiveLink href="/policy" variant="homeNav">
+              POLICIES
+            </ActiveLink>
           </div>
         </div>
 
@@ -65,9 +68,10 @@ export default function NavBar() {
         </Link>
 
         {/* RIGHT */}
-        <div className="flex items-center">
-          <button
-            className="
+        <Link href="/book">
+          <div className="flex items-center">
+            <button
+              className="
             border border-(--primary)
             bg-(--primary)
             px-4 py-2
@@ -76,11 +80,13 @@ export default function NavBar() {
             text-white
             hover:bg-transparent hover:text-(--primary)
             transition
+            cursor-pointer
           "
-          >
-            BOOK NOW
-          </button>
-        </div>
+            >
+              BOOK NOW
+            </button>
+          </div>
+        </Link>
       </nav>
     </header>
   );

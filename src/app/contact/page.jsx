@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Contact Us | Nail Express Tewkesbury",
+  title: "Contact Us",
   description:
-    "Get in touch with Nail Express. Find our location, opening hours, and contact details or book your next nail appointment with us.",
+    "Contact Nail Express Tewkesbury for appointments, enquiries, or directions. Find our location, opening hours, and contact details.",
 };
 
 export default function ContactPage() {
@@ -72,12 +72,12 @@ export default function ContactPage() {
             <div className="mt-3 h-[2px] w-8 bg-(--primary)"></div>
 
             <ul className="mt-4 space-y-1 text-sm text-gray-700">
-              <li>Monday: 9am – 7pm</li>
-              <li>Tuesday: 9am – 7pm</li>
-              <li>Wednesday: 9am – 7pm</li>
-              <li>Thursday: 9am – 7pm</li>
-              <li>Friday: 8:30am – 7pm</li>
-              <li>Saturday: 8:30am – 7pm</li>
+              <li>Monday: 9am – 6pm</li>
+              <li>Tuesday: 9am – 6pm</li>
+              <li>Wednesday: 9am – 6pm</li>
+              <li>Thursday: 9am – 6pm</li>
+              <li>Friday: 9am – 6pm</li>
+              <li>Saturday: 9am – 5pm</li>
               <li>Sunday: CLOSED</li>
             </ul>
           </div>
@@ -126,7 +126,7 @@ export default function ContactPage() {
 
           <div className="mt-10">
             <Link
-              href="/services"
+              href="/service"
               className="inline-block border-2 border-(--primary) px-6 py-3 text-xs tracking-widest hover:bg-(--primary) hover:text-white transition"
             >
               VIEW SERVICES
@@ -162,7 +162,7 @@ export default function ContactPage() {
 
           <div className="mt-8">
             <Link
-              href="/services"
+              href="/service"
               className="border-2 border-(--primary) px-8 py-3 text-xs tracking-widest hover:bg-(--primary) hover:text-white transition"
             >
               VIEW SERVICES

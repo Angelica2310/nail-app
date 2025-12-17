@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Introduction() {
   return (
     <div className="mt-20 px-4 md:px-12 mx-auto">
-      <section className="py-24 px-4 text-center">
+      <section className="md:py-20 px-4 text-center">
         <h2 className="tracking-[0.35em] text-sm md:text-base mb-6 text-gray-800">
           MORE THAN JUST NAILS
         </h2>
@@ -16,7 +16,7 @@ export default function Introduction() {
           good as it looks.
         </p>
 
-        <div className="mt-8 h-[2px] w-12 bg-(--primary) mx-auto"></div>
+        <div className="my-8 h-[2px] w-12 bg-(--primary) mx-auto"></div>
       </section>
 
       <div className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-8 justify-center py-7">
@@ -30,7 +30,7 @@ export default function Introduction() {
         />
 
         {/* TEXT CARD */}
-        <div className="p-4 md:p-10 text-xs md:text-sm max-w-xs md:max-w-md border border-(--primary) bg-white/25 backdrop-blur-lg shadow-lg rounded-2xl">
+        <div className="p-4 md:p-10 text-xs md:text-sm max-w-xs md:max-w-md border border-(--primary) bg-white/25 backdrop-blur-lg shadow-lg rounded-2xl mt-5">
           <h2 className="tracking-widest md:text-2xl mb-4 text-(--text) text-xl">
             MODERN ARTISTIC NAILS
           </h2>

@@ -15,17 +15,23 @@ const nunito = Nunito({
 });
 
 export const metadata = {
-  title: "Nail Express Tewkesbury",
+  title: {
+    default: "Nail Express Tewkesbury",
+    template: "%s | Nail Express Tewkesbury",
+  },
   description:
-    "Your go-to spot for creative nail art, flawless gel finishes, and self-care vibes. Style meets comfort at our nail studio.",
+    "Professional nail salon in Tewkesbury offering BIAB, gel, nail extensions and artistic designs. Walk-ins welcome.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable} ${greatVibes.variable}`}>
+      <body
+        className={`${nunito.variable} ${greatVibes.variable} min-h-screen flex flex-col`}
+      >
         <NavBar />
-        {children}
+        {/* pushes footer to the bottom when content is short */}
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

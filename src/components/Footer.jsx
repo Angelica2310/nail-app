@@ -66,10 +66,13 @@ export default function Footer() {
               About Us
             </Link>
             <Link href="/contact" className="hover:text-(--primary) transition">
-              Contact Us
+              Contact
             </Link>
-            <Link href="/menu" className="hover:text-(--primary) transition">
-              Our Menu
+            <Link href="/service" className="hover:text-(--primary) transition">
+              Services
+            </Link>
+            <Link href="/policy" className="hover:text-(--primary) transition">
+              Policies
             </Link>
           </div>
         </div>
@@ -79,9 +82,8 @@ export default function Footer() {
           <h3 className="text-sm tracking-widest text-(--primary) mb-4">
             OPENING HOURS
           </h3>
-          <span>Mon – Thu: 9am – 7pm</span>
-          <span>Friday: 8:30am – 7pm</span>
-          <span>Saturday: 8:30am – 7pm</span>
+          <span>Mon – Fri: 9am – 6pm</span>
+          <span>Saturday: 9am – 5pm</span>
           <span className="italic">Sunday: Closed</span>
         </div>
       </div>
@@ -89,8 +91,15 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="mt-16 border-t border-(--accent)/40 pt-6 pb-8 text-center text-xs text-(--textMain)/70">
         © {new Date().getFullYear()} Nail Express Tewkesbury. All rights
-        reserved.
-        <span className="block mt-1">Designed & Developed by Angelica</span>
+        reserved. Design & development by{" "}
+        <a
+          href="https://www.angelicagiang.com/"
+          target="_blank"
+          rel="noopener"
+          className="text-(--primary)/70 hover:text-(--primary) transition"
+        >
+          Angelica
+        </a>
       </div>
     </footer>
   );

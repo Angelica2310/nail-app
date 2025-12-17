@@ -30,25 +30,29 @@ export default function Hero() {
   }, [images.length]);
 
   return (
-    <div>
-      <div className="flex flex-col items-center md:gap-2 px-4 md:flex-row md:justify-center md:px-12 mt-12 ">
-        {visible.map((src, i) => (
-          <div
-            key={`${src}-${i}`}
-            className="bg-(--accent) rounded-2xl p-3 shadow-md"
-          >
-            <div className="relative w-[320px] md:w-[520px] h-[420px] md:h-[520px] overflow-hidden rounded-2xl">
-              <Image
-                src={src}
-                alt="hero img"
-                fill
-                className="object-cover"
-                priority={i === 0}
-              />
-            </div>
+    <div className="flex flex-col items-center gap-3 px-4 mt-12 md:flex-row md:justify-center md:px-12 md:gap-5">
+      {visible.map((src, i) => (
+        <div key={`${src}-${i}`} className={i === 0 ? "" : "hidden md:block"}>
+          <div className="relative w-[320px] h-[420px] overflow-hidden rounded-2xl">
+            <Image
+              src={src}
+              alt="hero img"
+              fill
+              className="object-cover"
+              priority={i === 0}
+            />
+
+            {/* transparent/glass border overlay (does NOT blur the image) */}
+            <div
+              className="
+              pointer-events-none absolute inset-0 rounded-2xl
+              ring-1 ring-white/25
+              shadow-[inset_0_0_0_14px_rgba(255,255,255,0.5)]
+            "
+            />
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

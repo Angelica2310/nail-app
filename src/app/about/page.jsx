@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "About Us | Nail Express Tewkesbury",
+  title: "About Us",
   description:
-    "Learn more about Nail Express — a destination nail salon where beauty meets relaxation, offering expert manicures, gels, BIAB, and nail art in Tewkesbury.",
+    "Learn more about Nail Express — our story, values, and passion for modern nail care in Tewkesbury.",
 };
 
 export default function AboutPage() {
@@ -30,7 +30,7 @@ export default function AboutPage() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href="/services"
+              href="/service"
               className="border-2 border-(--primary) px-6 py-3 text-xs tracking-widest hover:bg-(--primary) hover:text-white transition"
             >
               VIEW SERVICES
@@ -103,7 +103,7 @@ export default function AboutPage() {
 
           <div className="mt-8">
             <Link
-              href="/services"
+              href="/service"
               className="inline-block border-2 border-(--primary) px-6 py-3 text-xs tracking-widest hover:bg-(--primary) hover:text-white transition"
             >
               EXPLORE SERVICES
@@ -167,14 +167,22 @@ export default function AboutPage() {
           {["/about01.jpg", "/about02.jpg", "/about03.jpg"].map((src) => (
             <div
               key={src}
-              className="rounded-2xl bg-(--accent) p-3 shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
+              className="rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.12)]"
             >
-              <div className="relative h-[320px] overflow-hidden rounded-xl">
+              <div className="relative h-80 overflow-hidden rounded-xl">
                 <Image
                   src={src}
                   alt="Nail design"
                   fill
                   className="object-cover"
+                />
+
+                <div
+                  className="
+              pointer-events-none absolute inset-0 rounded-2xl
+              ring-1 ring-white/25
+              shadow-[inset_0_0_0_14px_rgba(255,255,255,0.5)]
+            "
                 />
               </div>
             </div>
@@ -196,7 +204,7 @@ export default function AboutPage() {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/services"
+              href="/service"
               className="border-2 border-(--primary) px-8 py-3 text-xs tracking-widest hover:bg-(--primary) hover:text-white transition"
             >
               VIEW SERVICES

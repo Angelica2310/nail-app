@@ -75,6 +75,17 @@ export default function MenuPage() {
               </Link>
             </DropDownMenu.Item>
 
+            <DropDownMenu.Item asChild>
+              <Link
+                href="/policy"
+                className="px-10 py-3 text-xs tracking-widest text-(--textMain)
+                  rounded-full transition
+                  hover:bg-(--primary)/10 hover:text-(--primary)"
+              >
+                POLICIES
+              </Link>
+            </DropDownMenu.Item>
+
             {/* CTA */}
             <DropDownMenu.Item asChild>
               <Link

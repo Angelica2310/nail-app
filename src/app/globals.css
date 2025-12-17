@@ -35,7 +35,7 @@ body::before {
   background-size: cover;
   background-position: center;
   filter: blur(5px);
-  transform: scale(1.05); /* prevents blur edges */
+  transform: scale(1.05);
   z-index: -1;
   opacity: 0.45;
 }

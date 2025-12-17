@@ -2,9 +2,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Services | Nail Express Tewkesbury",
+  title: "Our Services",
   description:
-    "Explore our nail services at Nail Express — nail extensions, BIAB, gel/shellac, natural nail care, nail art and more.",
+    "Discover our nail services at Nail Express Tewkesbury, including BIAB, gel nails, nail extensions, nail art, manicures, and pedicures.",
 };
 
 const EXTENSIONS = [
@@ -110,7 +110,7 @@ export default function ServicesPage() {
 
             <div className="w-full overflow-x-auto">
               <div className="min-w-[680px]">
-                <div className="grid grid-cols-[2.2fr_1fr_1fr_1.2fr] gap-4 text-xs tracking-widest text-gray-600 mb-4">
+                <div className="grid grid-cols-[2.2fr_1fr_1fr_1.2fr] gap-4 text-xs tracking-widest text-(--text) mb-4">
                   <div className="uppercase">Service</div>
                   <div className="uppercase text-center">Full Set</div>
                   <div className="uppercase text-center">Infill</div>
@@ -146,7 +146,7 @@ export default function ServicesPage() {
               <h2 className="text-sm tracking-widest text-(--primary)">
                 NATURAL SERVICES
               </h2>
-              <div className="mt-3 h-[2px] w-10 bg-(--primary)" />
+              <div className="mt-3 h-0.5 w-10 bg-(--primary)" />
             </div>
 
             <div className="w-full overflow-x-auto">
@@ -186,7 +186,7 @@ export default function ServicesPage() {
               <h2 className="text-sm tracking-widest text-(--primary)">
                 OTHER SERVICES
               </h2>
-              <div className="mt-3 h-[2px] w-10 bg-(--primary)" />
+              <div className="mt-3 h-0.5 w-10 bg-(--primary)" />
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -221,6 +221,69 @@ export default function ServicesPage() {
                 </Link>
               </div>
             </div>
+
+            {/* FAQ */}
+            <div className="mt-14">
+              <h2 className="text-sm tracking-widest text-(--primary) text-center">
+                FREQUENTLY ASKED QUESTIONS
+              </h2>
+              <div className="mt-3 h-0.5 w-10 bg-(--primary) mx-auto" />
+
+              <div className="mt-8 space-y-3 text-left">
+                {[
+                  {
+                    q: "Do I need to book an appointment?",
+                    a: "Appointments are recommended to guarantee your preferred time and technician, but walk-ins are welcome when availability allows.",
+                  },
+                  {
+                    q: "How long do nail services usually take?",
+                    a: "Service time depends on the treatment and design. Most appointments take between 45 minutes and 1.5 hours. More detailed nail art may take longer.",
+                  },
+                  {
+                    q: "How long do gel or BIAB nails last?",
+                    a: "With proper care, gel and BIAB nails typically last 2–3 weeks. Longevity can vary depending on lifestyle and nail growth.",
+                  },
+                  {
+                    q: "What payment methods do you accept?",
+                    a: "We accept cash or bank transfer. Please contact us if you’d like to confirm before your visit.",
+                  },
+                  {
+                    q: "Can you create nail art based on my preference?",
+                    a: "Yes, we’ll do our best to recreate your preferred design. Please note that colours and details may vary slightly, but we’ll always aim to match your request as closely as possible.",
+                  },
+                ].map((item) => (
+                  <details
+                    key={item.q}
+                    className="group rounded-xl bg-white/60 p-5"
+                  >
+                    <summary className="cursor-pointer list-none text-sm font-medium text-gray-800 flex items-center justify-between">
+                      <span>{item.q}</span>
+
+                      {/* chevron */}
+                      <span className="ml-4 text-gray-600 transition-transform duration-200 group-open:rotate-180">
+                        ▼
+                      </span>
+                    </summary>
+
+                    <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+                      {item.a}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </div>
+
+            {/* Link to policies */}
+            <p className="mt-6 text-xs text-gray-600 text-center">
+              For full details, please read our{" "}
+              <Link
+                href="/policy"
+                className="underline underline-offset-4 hover:text-(--primary)"
+              >
+                Policies
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </section>
