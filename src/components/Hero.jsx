@@ -1,10 +1,6 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-
-function clamp(n, min, max) {
-  return Math.max(min, Math.min(max, n));
-}
 
 export default function Hero3DCarousel() {
   const images = useMemo(
@@ -22,7 +18,7 @@ export default function Hero3DCarousel() {
   const count = images.length;
   const step = 360 / count;
 
-  // responsive sizing (helps mobile 3D readability)
+  // simple responsive switch
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -36,174 +32,42 @@ export default function Hero3DCarousel() {
   const cardW = isMobile ? 260 : 320;
   const cardH = isMobile ? 340 : 420;
 
-  // rotation in degrees (continuous)
-  const [rot, setRot] = useState(0);
+  const [index, setIndex] = useState(0);
 
-  // refs for drag physics
-  const draggingRef = useRef(false);
-  const startXRef = useRef(0);
-  const startRotRef = useRef(0);
-  const lastXRef = useRef(0);
-  const lastTRef = useRef(0);
-  const velRef = useRef(0); // deg/ms
-  const rafRef = useRef(null);
-  const ringRef = useRef(null);
-  const rotRef = useRef(0);
-
-  // autoplay
-  const autoRef = useRef(null);
-  const resumeTimeoutRef = useRef(null);
-
-  const stopAutoplay = () => {
-    if (autoRef.current) clearInterval(autoRef.current);
-    autoRef.current = null;
-  };
-
-  const startAutoplay = () => {
-    stopAutoplay();
-    autoRef.current = setInterval(() => {
-      setRot((r) => r - step); // rotate to next
-    }, 3500);
-  };
-
+  // autoplay desktop only (safe + less annoying on mobile)
   useEffect(() => {
-    // desktop: autoplay on
-    if (!isMobile) {
-      startAutoplay();
-    } else {
-      // mobile: autoplay off
-      stopAutoplay();
-    }
+    if (isMobile) return;
 
-    return () => stopAutoplay();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % count);
+    }, 3500);
 
-  const scheduleAutoplayResume = () => {
-    if (isMobile) return; // don't resume on mobile
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-    resumeTimeoutRef.current = setTimeout(() => {
-      startAutoplay();
-    }, 1800);
-  };
+    return () => clearInterval(id);
+  }, [isMobile, count]);
 
-  const getClientX = (e) => {
-    if (e.touches && e.touches.length) return e.touches[0].clientX;
-    return e.clientX;
-  };
-
-  const snapToNearest = () => {
-    // snap rotation to nearest step
-    setRot((r) => {
-      const snapped = Math.round(r / step) * step;
-      return snapped;
-    });
-  };
-
-  const startInertia = () => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-
-    let v = velRef.current; // deg/ms
-    let last = performance.now();
-
-    const tick = (now) => {
-      const dt = now - last;
-      last = now;
-
-      // friction
-      v *= 0.95;
-
-      setRot((r) => r + v * dt);
-
-      if (Math.abs(v) > 0.01) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        rafRef.current = null;
-        snapToNearest();
-        scheduleAutoplayResume();
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(tick);
-  };
-
-  const onDown = (e) => {
-    draggingRef.current = true;
-    e.currentTarget.setPointerCapture(e.pointerId);
-
-    stopAutoplay();
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-
-    const x = e.clientX;
-    startXRef.current = x;
-    lastXRef.current = x;
-    startRotRef.current = rotRef.current ?? rot; // use rotRef if you have it
-    lastTRef.current = performance.now();
-    velRef.current = 0;
-  };
-
-  const onMove = (e) => {
-    if (!draggingRef.current) return;
-
-    const x = e.clientX;
-    const dx = x - startXRef.current;
-
-    const degPerPx = isMobile ? 0.25 : 0.18;
-    const nextRot = startRotRef.current + dx * degPerPx;
-
-    // If you’re still using React state rotation:
-    setRot(nextRot);
-
-    // velocity for inertia
-    const now = performance.now();
-    const dt = now - lastTRef.current;
-    if (dt > 0) {
-      const ddx = x - lastXRef.current;
-      velRef.current = (ddx * degPerPx) / dt;
-    }
-    lastXRef.current = x;
-    lastTRef.current = now;
-  };
-
-  const onUp = () => {
-    if (!draggingRef.current) return;
-    draggingRef.current = false;
-
-    if (Math.abs(velRef.current) > 0.05) startInertia();
-    else {
-      snapToNearest();
-      scheduleAutoplayResume();
-    }
-  };
-
-  // active index for depth cues
-  const index = ((Math.round(-rot / step) % count) + count) % count;
+  const go = (dir) => setIndex((i) => (i + dir + count) % count);
 
   return (
     <div className="mt-12 px-4 md:px-12">
+      {/* Scene */}
       <div
-        className="relative mx-auto select-none"
+        className="relative mx-auto"
         style={{
           width: cardW,
           height: cardH,
           perspective: `${perspective}px`,
-          touchAction: "none",
         }}
-        onPointerDown={onDown}
-        onPointerMove={onMove}
-        onPointerUp={onUp}
-        onPointerCancel={onUp}
       >
+        {/* Ring */}
         <div
           className="absolute inset-0"
           style={{
             transformStyle: "preserve-3d",
-            transform: `translateZ(-${radius}px) rotateY(0deg) translate3d(0,0,0)`,
             willChange: "transform",
-            transition: draggingRef.current
-              ? "none"
-              : "transform 650ms cubic-bezier(.2,.8,.2,1)",
+            transform: `translateZ(-${radius}px) rotateY(${
+              -index * step
+            }deg) translate3d(0,0,0)`,
+            transition: "transform 900ms cubic-bezier(.2,.8,.2,1)",
           }}
         >
           {images.map((src, i) => {
@@ -213,17 +77,15 @@ export default function Hero3DCarousel() {
               Math.abs(i - index),
               count - Math.abs(i - index)
             );
-            const opacity = dist === 0 ? 1 : dist === 1 ? 0.55 : 0.18;
-            const scale = draggingRef.current
-              ? 1
-              : dist === 0
-              ? 1
-              : dist === 1
-              ? 0.9
-              : 0.82;
+            const opacity = dist === 0 ? 1 : dist === 1 ? 0.6 : 0.22;
+
+            // scaling is a strong depth cue on mobile, keep it subtle
+            const scale = dist === 0 ? 1 : dist === 1 ? 0.92 : 0.86;
+
             const cardShadow = isMobile
               ? "0 10px 25px rgba(0,0,0,0.18)"
-              : "0 25px 60px rgba(0,0,0,0.25)";
+              : "0 25px 60px rgba(0,0,0,0.25), 0 8px 18px rgba(0,0,0,0.18)";
+
             return (
               <div
                 key={src}
@@ -232,17 +94,23 @@ export default function Hero3DCarousel() {
                   width: cardW,
                   height: cardH,
                   transformStyle: "preserve-3d",
-                  transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px) scale(${scale}) translate3d(0,0,0)`,
                   opacity,
                   transition: "opacity 450ms ease",
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   willChange: "transform, opacity",
+                  transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px) scale(${scale}) translate3d(0,0,0)`,
                 }}
               >
+                {/* Card */}
                 <div
                   className="relative w-full h-full overflow-hidden rounded-2xl"
-                  style={{ boxShadow: cardShadow }}
+                  style={{
+                    boxShadow: cardShadow,
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                    transform: "translate3d(0,0,0)",
+                  }}
                 >
                   <Image
                     src={src}
@@ -252,16 +120,15 @@ export default function Hero3DCarousel() {
                     priority={i === 0}
                   />
 
-                  {/* glass border overlay */}
+                  {/* Glass border overlay (stable layer) */}
                   <div
                     className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/25"
                     style={{
-                      // push slightly forward to avoid z-fighting / layer swaps
-                      transform: "translateZ(36px) translate3d(0,0,0)",
+                      transform: "translateZ(6px) translate3d(0,0,0)",
                       backfaceVisibility: "hidden",
                       WebkitBackfaceVisibility: "hidden",
                       willChange: "transform, opacity",
-                      boxShadow: "inset 0 0 0 14px rgba(255,255,255,0.42)",
+                      boxShadow: "inset 0 0 0 12px rgba(255,255,255,0.40)",
                     }}
                   />
                 </div>
@@ -269,9 +136,23 @@ export default function Hero3DCarousel() {
             );
           })}
         </div>
-      </div>
 
-      <p className="mt-4 text-center text-sm opacity-70">Drag to rotate</p>
+        {/* Buttons */}
+        <div className="absolute inset-x-0 -bottom-14 flex items-center justify-center gap-3">
+          <button
+            onClick={() => go(-1)}
+            className="rounded-full px-4 py-2 text-sm bg-black/70 text-white hover:bg-black"
+          >
+            Prev
+          </button>
+          <button
+            onClick={() => go(1)}
+            className="rounded-full px-4 py-2 text-sm bg-black/70 text-white hover:bg-black"
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
