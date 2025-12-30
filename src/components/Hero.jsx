@@ -47,6 +47,8 @@ export default function Hero3DCarousel() {
   const lastTRef = useRef(0);
   const velRef = useRef(0); // deg/ms
   const rafRef = useRef(null);
+  const ringRef = useRef(null);
+  const rotRef = useRef(0);
 
   // autoplay
   const autoRef = useRef(null);
@@ -153,7 +155,16 @@ export default function Hero3DCarousel() {
     const degPerPx = isMobile ? 0.25 : 0.18;
 
     const nextRot = startRotRef.current + dx * degPerPx;
-    setRot(nextRot);
+    rotRef.current = nextRot;
+
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        if (ringRef.current) {
+          ringRef.current.style.transform = `translateZ(-${radius}px) rotateY(${rotRef.current}deg) translate3d(0,0,0)`;
+        }
+        rafRef.current = null;
+      });
+    }
 
     // velocity for inertia
     const now = performance.now();
@@ -204,7 +215,8 @@ export default function Hero3DCarousel() {
           className="absolute inset-0"
           style={{
             transformStyle: "preserve-3d",
-            transform: `translateZ(-${radius}px) rotateY(${rot}deg)`,
+            transform: `translateZ(-${radius}px) rotateY(0deg) translate3d(0,0,0)`,
+            willChange: "transform",
             transition: draggingRef.current
               ? "none"
               : "transform 650ms cubic-bezier(.2,.8,.2,1)",
@@ -218,8 +230,16 @@ export default function Hero3DCarousel() {
               count - Math.abs(i - index)
             );
             const opacity = dist === 0 ? 1 : dist === 1 ? 0.55 : 0.18;
-            const scale = dist === 0 ? 1 : dist === 1 ? 0.9 : 0.82;
-
+            const scale = draggingRef.current
+              ? 1
+              : dist === 0
+              ? 1
+              : dist === 1
+              ? 0.9
+              : 0.82;
+            const cardShadow = isMobile
+              ? "0 10px 25px rgba(0,0,0,0.18)"
+              : "0 25px 60px rgba(0,0,0,0.25)";
             return (
               <div
                 key={src}
@@ -236,7 +256,10 @@ export default function Hero3DCarousel() {
                   willChange: "transform, opacity",
                 }}
               >
-                <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl">
+                <div
+                  className="relative w-full h-full overflow-hidden rounded-2xl"
+                  style={{ boxShadow: cardShadow }}
+                >
                   <Image
                     src={src}
                     alt="hero img"
