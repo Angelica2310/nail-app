@@ -15,16 +15,26 @@ export default function Hero3DCarousel() {
     []
   );
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const [index, setIndex] = useState(0);
   const intervalRef = useRef(null);
 
   const count = images.length;
   const step = 360 / count;
 
-  // Tweak these for your look
-  const radius = 520; // distance from center (bigger = wider ring)
-  const cardW = 320;
-  const cardH = 420;
+  const radius = isMobile ? 260 : 520;
+  const perspective = isMobile ? 800 : 1400;
+
+  const cardW = isMobile ? 260 : 320;
+  const cardH = isMobile ? 340 : 420;
 
   useEffect(() => {
     // autoplay
@@ -49,11 +59,7 @@ export default function Hero3DCarousel() {
       {/* Scene */}
       <div
         className="relative mx-auto"
-        style={{
-          width: cardW,
-          height: cardH,
-          perspective: "1400px",
-        }}
+        style={{ width: cardW, height: cardH, perspective: `${perspective}px` }}
       >
         {/* Ring */}
         <div
@@ -71,7 +77,9 @@ export default function Hero3DCarousel() {
               count - Math.abs(i - index)
             );
 
-            const opacity = dist === 0 ? 1 : dist === 1 ? 0.6 : 0.25;
+            const opacity = dist === 0 ? 1 : dist === 1 ? 0.55 : 0.18;
+            const scale = dist === 0 ? 1 : dist === 1 ? 0.9 : 0.82;
+
             return (
               <div
                 key={src}
@@ -80,9 +88,10 @@ export default function Hero3DCarousel() {
                   width: cardW,
                   height: cardH,
                   opacity,
-                  transition: "opacity 600ms ease",
                   transformStyle: "preserve-3d",
-                  transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`,
+                  transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px) scale(${scale})`,
+                  opacity,
+                  transition: "opacity 600ms ease",
                 }}
               >
                 {/* Card */}
@@ -93,6 +102,10 @@ export default function Hero3DCarousel() {
                     fill
                     className="object-cover"
                     priority={i === 0}
+                    style={{
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                    }}
                   />
 
                   {/* Glass border overlay */}
