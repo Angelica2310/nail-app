@@ -128,50 +128,39 @@ export default function Hero3DCarousel() {
   };
 
   const onDown = (e) => {
-    // prevent page scroll while dragging carousel
-    if (e.cancelable) e.preventDefault();
-
     draggingRef.current = true;
+    e.currentTarget.setPointerCapture(e.pointerId);
+
     stopAutoplay();
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
 
-    const x = getClientX(e);
+    const x = e.clientX;
     startXRef.current = x;
     lastXRef.current = x;
-    startRotRef.current = rot;
+    startRotRef.current = rotRef.current ?? rot; // use rotRef if you have it
     lastTRef.current = performance.now();
     velRef.current = 0;
   };
 
   const onMove = (e) => {
     if (!draggingRef.current) return;
-    if (e.cancelable) e.preventDefault();
 
-    const x = getClientX(e);
+    const x = e.clientX;
     const dx = x - startXRef.current;
 
-    // sensitivity: px -> degrees
     const degPerPx = isMobile ? 0.25 : 0.18;
-
     const nextRot = startRotRef.current + dx * degPerPx;
-    rotRef.current = nextRot;
 
-    if (!rafRef.current) {
-      rafRef.current = requestAnimationFrame(() => {
-        if (ringRef.current) {
-          ringRef.current.style.transform = `translateZ(-${radius}px) rotateY(${rotRef.current}deg) translate3d(0,0,0)`;
-        }
-        rafRef.current = null;
-      });
-    }
+    // If you’re still using React state rotation:
+    setRot(nextRot);
 
     // velocity for inertia
     const now = performance.now();
     const dt = now - lastTRef.current;
     if (dt > 0) {
       const ddx = x - lastXRef.current;
-      velRef.current = (ddx * degPerPx) / dt; // deg/ms
+      velRef.current = (ddx * degPerPx) / dt;
     }
     lastXRef.current = x;
     lastTRef.current = now;
@@ -181,10 +170,8 @@ export default function Hero3DCarousel() {
     if (!draggingRef.current) return;
     draggingRef.current = false;
 
-    // if you "flick", inertia carries; otherwise snaps quickly
-    if (Math.abs(velRef.current) > 0.05) {
-      startInertia();
-    } else {
+    if (Math.abs(velRef.current) > 0.05) startInertia();
+    else {
       snapToNearest();
       scheduleAutoplayResume();
     }
@@ -201,15 +188,12 @@ export default function Hero3DCarousel() {
           width: cardW,
           height: cardH,
           perspective: `${perspective}px`,
-          touchAction: "pan-y", // allow vertical scroll, we handle horizontal drag
+          touchAction: "none",
         }}
-        onMouseDown={onDown}
-        onMouseMove={onMove}
-        onMouseUp={onUp}
-        onMouseLeave={onUp}
-        onTouchStart={onDown}
-        onTouchMove={onMove}
-        onTouchEnd={onUp}
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onUp}
       >
         <div
           className="absolute inset-0"
