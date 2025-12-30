@@ -65,16 +65,20 @@ export default function Hero3DCarousel() {
   };
 
   useEffect(() => {
-    startAutoplay();
-    return () => {
+    // desktop: autoplay on
+    if (!isMobile) {
+      startAutoplay();
+    } else {
+      // mobile: autoplay off
       stopAutoplay();
-      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    }
+
+    return () => stopAutoplay();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
+  }, [isMobile]);
 
   const scheduleAutoplayResume = () => {
+    if (isMobile) return; // don't resume on mobile
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     resumeTimeoutRef.current = setTimeout(() => {
       startAutoplay();
