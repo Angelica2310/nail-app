@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 const FRESHA_URL =
-  "https://www.fresha.com/a/nail-express-tewkesbury-tewkesbury-153-high-street-bsoe3jwu";
+  "https://app.squareup.com/appointments/book/cwf0e1be3w6h4m/L7P4TZH2TZRHA/start";
 
 // 👉 WhatsApp config
 const WHATSAPP_PHONE = "447596246637"; // replace with real number (UK, no +, no spaces)
