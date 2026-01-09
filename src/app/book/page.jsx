@@ -7,8 +7,7 @@ export const metadata = {
     "Book your appointment with Nail Express Tewkesbury. Choose a service and time that suits you.",
 };
 
-const FRESHA_URL =
-  "https://app.squareup.com/appointments/book/cwf0e1be3w6h4m/L7P4TZH2TZRHA/start";
+const FRESHA_URL = "https://bamboonails.setmore.com";
 
 // 👉 WhatsApp config
 const WHATSAPP_PHONE = "447596246637"; // replace with real number (UK, no +, no spaces)
