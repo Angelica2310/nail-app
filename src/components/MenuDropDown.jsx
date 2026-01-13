@@ -66,6 +66,17 @@ export default function MenuPage() {
 
             <DropDownMenu.Item asChild>
               <Link
+                href="/gallery"
+                className="px-10 py-3 text-xs tracking-widest text-(--textMain)
+                  rounded-full transition
+                  hover:bg-(--primary)/10 hover:text-(--primary)"
+              >
+                GALLERY
+              </Link>
+            </DropDownMenu.Item>
+
+            <DropDownMenu.Item asChild>
+              <Link
                 href="/contact"
                 className="px-10 py-3 text-xs tracking-widest text-(--textMain)
                   rounded-full transition

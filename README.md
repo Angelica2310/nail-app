@@ -20,6 +20,16 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Booking System Setup
+
+1. Create a Supabase project and run the SQL in `supabase/schema.sql`.
+2. Enable email/password auth in Supabase and create staff user accounts.
+3. Add the booking env vars to `.env.local` (see the placeholders).
+4. Install new dependencies with `npm install`.
+
+The booking form posts to `src/app/api/bookings/route.js`, which writes to Supabase and sends confirmation emails via Resend.
+The admin view lives at `/admin` and uses Supabase Auth to sign in.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

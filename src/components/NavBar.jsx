@@ -43,6 +43,9 @@ export default function NavBar() {
             <ActiveLink href="/about" variant="homeNav">
               ABOUT US
             </ActiveLink>
+            <ActiveLink href="/gallery" variant="homeNav">
+              GALLERY
+            </ActiveLink>
             <ActiveLink href="/contact" variant="homeNav">
               CONTACT
             </ActiveLink>

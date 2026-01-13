@@ -1,5 +1,6 @@
 // src/app/book/page.jsx
 import Link from "next/link";
+import BookingForm from "./BookingForm";
 
 export const metadata = {
   title: "Book Appointment",
@@ -7,15 +8,10 @@ export const metadata = {
     "Book your appointment with Nail Express Tewkesbury. Choose a service and time that suits you.",
 };
 
-const FRESHA_URL = "https://bamboonails.setmore.com";
-
 // 👉 WhatsApp config
 const WHATSAPP_PHONE = "447596246637"; // replace with real number (UK, no +, no spaces)
 const WHATSAPP_MESSAGE =
-  "Hi, I’d like to book a nail appointment. Please let me know your availability.";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-  WHATSAPP_MESSAGE
-)}`;
+  "Hi, I'd like to book a nail appointment. Please let me know your availability.";
 
 export default function BookPage() {
   return (
@@ -30,32 +26,17 @@ export default function BookPage() {
         <div className="mt-4 h-0.5 w-12 bg-(--primary) mx-auto" />
 
         <p className="mt-6 text-sm md:text-base text-gray-700 leading-relaxed">
-          Choose your service and preferred time using our online booking
-          system. You’ll be taken to Fresha to complete your booking, or you can
-          book directly via WhatsApp.
+          Choose your service and preferred time below. We’ll save your request
+          instantly and confirm your appointment by email as soon as we check
+          availability.
         </p>
 
+        <BookingForm
+          whatsappPhone={WHATSAPP_PHONE}
+          whatsappMessage={WHATSAPP_MESSAGE}
+        />
+
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          {/* Fresha booking */}
-          <a
-            href={FRESHA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-(--primary) bg-(--primary) px-8 py-3 text-xs tracking-widest text-white hover:bg-transparent hover:text-(--primary) transition"
-          >
-            CONTINUE TO BOOKING
-          </a>
-
-          {/* WhatsApp booking */}
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-green-600 px-8 py-3 text-xs tracking-widest text-green-700 hover:bg-green-600 hover:text-white transition"
-          >
-            BOOK VIA WHATSAPP
-          </a>
-
           {/* Contact page */}
           <Link
             href="/contact"
@@ -80,6 +61,7 @@ export default function BookPage() {
           .
         </p>
       </section>
+
     </main>
   );
 }

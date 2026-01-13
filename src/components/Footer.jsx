@@ -65,6 +65,9 @@ export default function Footer() {
             <Link href="/about" className="hover:text-(--primary) transition">
               About Us
             </Link>
+            <Link href="/gallery" className="hover:text-(--primary) transition">
+              Gallery
+            </Link>
             <Link href="/contact" className="hover:text-(--primary) transition">
               Contact
             </Link>
